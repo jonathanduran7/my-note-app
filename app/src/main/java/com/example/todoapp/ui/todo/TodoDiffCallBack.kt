@@ -3,19 +3,12 @@ package com.example.todoapp.ui.todo
 import androidx.recyclerview.widget.DiffUtil
 import com.example.todoapp.domain.ToDo
 
-class TodoDiffCallBack (
-    private val oldList: List<ToDo>,
-    private val newList: List<ToDo>
-): DiffUtil.Callback(){
-    override fun getOldListSize(): Int = oldList.size
-
-    override fun getNewListSize(): Int = newList.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].id == newList[newItemPosition].id
+class TodoDiffCallBack: DiffUtil.ItemCallback<ToDo>() {
+    override fun areItemsTheSame(oldItem: ToDo, newItem: ToDo): Boolean {
+        return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition] == newList[newItemPosition]
+    override fun areContentsTheSame(oldItem: ToDo, newItem: ToDo): Boolean {
+        return oldItem == newItem
     }
 }
