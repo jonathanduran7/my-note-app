@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.todoapp.R
-import com.example.todoapp.domain.ToDo
+import com.example.todoapp.domain.models.ToDo
 
 class TodoAdapter: ListAdapter<ToDo, TodoViewHolder>(TodoDiffCallBack()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {

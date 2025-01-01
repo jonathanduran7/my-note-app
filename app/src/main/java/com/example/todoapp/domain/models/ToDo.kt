@@ -1,4 +1,4 @@
-package com.example.todoapp.domain
+package com.example.todoapp.domain.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

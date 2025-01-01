@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.repository.TodoRepository
-import com.example.todoapp.domain.ToDo
+import com.example.todoapp.domain.models.ToDo
 import kotlinx.coroutines.launch
 
 class TodoViewModel(
@@ -31,32 +31,6 @@ class TodoViewModel(
 
 //        createExampleTodos()
 
-    }
-
-    private fun createExampleTodos() {
-        viewModelScope.launch {
-            todoRepository.insert(
-                ToDo(
-                    id = 1,
-                    title = "Buy milk",
-                    isCompleted = true
-                )
-            )
-            todoRepository.insert(
-                ToDo(
-                    id = 2,
-                    title = "Buy eggs",
-                    isCompleted = false
-                )
-            )
-            todoRepository.insert(
-                ToDo(
-                    id = 3,
-                    title = "Buy bread",
-                    isCompleted = false
-                )
-            )
-        }
     }
 
     // TODO: Implement the ViewModel
