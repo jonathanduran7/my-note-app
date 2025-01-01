@@ -55,7 +55,7 @@ dependencies {
     // Dependencias de Room
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1") // Necesario para procesar anotaciones de Room
-
+    implementation("androidx.room:room-ktx:2.6.1")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
