@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.todoapp.data.database.DatabaseInstance
+import com.example.todoapp.data.repository.TodoRepository
 import com.example.todoapp.databinding.FragmentTodoBinding
 
 class TodoFragment : Fragment() {
@@ -15,7 +17,7 @@ class TodoFragment : Fragment() {
     private var _binding: FragmentTodoBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: TodoViewModel by viewModels()
+    private lateinit var viewModel: TodoViewModel
     private lateinit var todoAdapter: TodoAdapter
 
     override fun onCreateView(
@@ -45,6 +47,11 @@ class TodoFragment : Fragment() {
             adapter = todoAdapter
             setHasFixedSize(true)
         }
+
+        val todoDao = DatabaseInstance.getDatabase(requireContext()).taskDao()
+        val todoRepository = TodoRepository(todoDao)
+
+        viewModel = TodoViewModel(todoRepository)
 
         viewModel.todos.observe(viewLifecycleOwner, Observer { todos ->
             todoAdapter.submitList(todos)
