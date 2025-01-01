@@ -7,12 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.repository.TodoRepository
 import com.example.todoapp.domain.models.ToDo
+import com.example.todoapp.domain.usecases.AddTodoUseCase
 import com.example.todoapp.domain.usecases.ListTodosUseCase
 import kotlinx.coroutines.launch
 
 class TodoViewModel(
     private val todoRepository: TodoRepository,
-    private val listTodosUseCase: ListTodosUseCase
+    private val listTodosUseCase: ListTodosUseCase,
+    private val addTodoUseCase: AddTodoUseCase
 ) : ViewModel() {
 
     private val _todos = MutableLiveData<List<ToDo>>(emptyList())
@@ -24,15 +26,19 @@ class TodoViewModel(
         _todos.value = current
     }
 
+    fun addTodo(todo: ToDo) {
+        viewModelScope.launch {
+            addTodoUseCase(todo)
+        }
+        this.add(todo)
+    }
+
     init {
         viewModelScope.launch {
             val todos = listTodosUseCase()
             _todos.value = todos
             Log.i("TodoViewModel", "Todos: $todos")
         }
-
-//        createExampleTodos()
-
     }
 
     // TODO: Implement the ViewModel

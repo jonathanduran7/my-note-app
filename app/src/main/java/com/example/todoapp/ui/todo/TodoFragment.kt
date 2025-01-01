@@ -1,16 +1,22 @@
 package com.example.todoapp.ui.todo
 
+import android.app.Dialog
 import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.todoapp.R
 import com.example.todoapp.data.database.DatabaseInstance
 import com.example.todoapp.data.repository.TodoRepository
 import com.example.todoapp.databinding.FragmentTodoBinding
+import com.example.todoapp.domain.models.ToDo
+import com.example.todoapp.domain.usecases.AddTodoUseCase
 import com.example.todoapp.domain.usecases.ListTodosUseCase
 
 class TodoFragment : Fragment() {
@@ -52,11 +58,39 @@ class TodoFragment : Fragment() {
         val todoDao = DatabaseInstance.getDatabase(requireContext()).taskDao()
         val todoRepository = TodoRepository(todoDao)
         val listTodosUseCase = ListTodosUseCase(todoRepository)
+        val addTodoUseCase = AddTodoUseCase(todoRepository)
 
-        viewModel = TodoViewModel(todoRepository, listTodosUseCase)
+        viewModel = TodoViewModel(todoRepository, listTodosUseCase, addTodoUseCase)
 
         viewModel.todos.observe(viewLifecycleOwner, Observer { todos ->
             todoAdapter.submitList(todos)
         })
+
+        //REFACTOR THIS
+        binding.addButton.setOnClickListener {
+            val dialog = Dialog(requireContext())
+            dialog.setContentView(R.layout.dialog_todo)
+
+            dialog.setCancelable(true)
+
+            val editTextTodo = dialog.findViewById<EditText>(R.id.editTextTodo)
+            val buttonAddTodo = dialog.findViewById<Button>(R.id.buttonAddTodo)
+
+            buttonAddTodo.setOnClickListener {
+                val todoText = editTextTodo.text.toString()
+
+                val todo = ToDo(
+                    title = todoText,
+                    isCompleted = false
+                )
+
+                viewModel.addTodo(todo)
+                todoAdapter.notifyDataSetChanged()
+
+                dialog.dismiss()
+            }
+
+            dialog.show()
+        }
     }
 }

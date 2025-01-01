@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="220dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="250dp"
+    android:padding="16dp">
+    >
+
+    <EditText
+        android:id="@+id/editTextTodo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Todo"
+        android:padding="10dp"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/buttonAddTodo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Todo"
+        android:textSize="20sp" />
+
+</LinearLayout>
