@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapp.data.database.DatabaseInstance
 import com.example.todoapp.data.repository.TodoRepository
 import com.example.todoapp.databinding.FragmentTodoBinding
+import com.example.todoapp.domain.usecases.ListTodosUseCase
 
 class TodoFragment : Fragment() {
 
@@ -50,8 +51,9 @@ class TodoFragment : Fragment() {
 
         val todoDao = DatabaseInstance.getDatabase(requireContext()).taskDao()
         val todoRepository = TodoRepository(todoDao)
+        val listTodosUseCase = ListTodosUseCase(todoRepository)
 
-        viewModel = TodoViewModel(todoRepository)
+        viewModel = TodoViewModel(todoRepository, listTodosUseCase)
 
         viewModel.todos.observe(viewLifecycleOwner, Observer { todos ->
             todoAdapter.submitList(todos)
