@@ -46,6 +46,16 @@ class TodoViewModel(
         }
     }
 
+    fun remove(todo: ToDo) {
+        val current = _todos.value.orEmpty().toMutableList()
+        current.remove(todo)
+        _todos.value = current
+
+        viewModelScope.launch {
+            todoRepository.delete(todo.id)
+        }
+    }
+
     init {
         viewModelScope.launch {
             val todos = listTodosUseCase()
