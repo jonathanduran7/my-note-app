@@ -19,7 +19,7 @@ import com.example.todoapp.domain.models.ToDo
 import com.example.todoapp.domain.usecases.AddTodoUseCase
 import com.example.todoapp.domain.usecases.ListTodosUseCase
 
-class TodoFragment : Fragment() {
+class TodoFragment : Fragment(), OnTodoCheckListener {
 
     private var _binding: FragmentTodoBinding? = null
     private val binding get() = _binding!!
@@ -47,7 +47,9 @@ class TodoFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        todoAdapter = TodoAdapter()
+        todoAdapter = TodoAdapter(
+            listener = this
+        )
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -55,6 +57,7 @@ class TodoFragment : Fragment() {
             setHasFixedSize(true)
         }
 
+        //TODO: refactor this
         val todoDao = DatabaseInstance.getDatabase(requireContext()).taskDao()
         val todoRepository = TodoRepository(todoDao)
         val listTodosUseCase = ListTodosUseCase(todoRepository)
@@ -66,7 +69,7 @@ class TodoFragment : Fragment() {
             todoAdapter.submitList(todos)
         })
 
-        //REFACTOR THIS
+        //TODO: REFACTOR THIS
         binding.addButton.setOnClickListener {
             val dialog = Dialog(requireContext())
             dialog.setContentView(R.layout.dialog_todo)
@@ -92,5 +95,10 @@ class TodoFragment : Fragment() {
 
             dialog.show()
         }
+    }
+
+    override fun onTodoCheckChanged(todo: ToDo, isChecked: Boolean) {
+        val updatedTodo = todo.copy(isCompleted = isChecked)
+        viewModel.update(updatedTodo)
     }
 }
