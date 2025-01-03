@@ -16,8 +16,10 @@ class TodoRepository(private val todoDao: TodoDao) {
         }
     }
 
-    suspend fun delete(todo: ToDo) {
-        todoDao.delete(todo)
+    suspend fun delete(todoId: Int) {
+        if(todoId != null) {
+            todoDao.delete(todoId)
+        }
     }
 
     suspend fun getAll(): List<ToDo> {
