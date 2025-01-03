@@ -7,7 +7,8 @@ import com.example.todoapp.R
 import com.example.todoapp.domain.models.ToDo
 
 class TodoAdapter(
-    private val listener: OnTodoCheckListener
+    private val listener: OnTodoCheckListener,
+    private val deleteListener: OnTodoDelete
 ): ListAdapter<ToDo, TodoViewHolder>(TodoDiffCallBack()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_todo, parent, false)
@@ -16,6 +17,6 @@ class TodoAdapter(
 
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         val todo = getItem(position)
-        holder.bind(todo, listener)
+        holder.bind(todo, listener, deleteListener)
     }
 }
