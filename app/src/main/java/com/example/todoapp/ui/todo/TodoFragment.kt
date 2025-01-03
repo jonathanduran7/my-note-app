@@ -19,7 +19,7 @@ import com.example.todoapp.domain.models.ToDo
 import com.example.todoapp.domain.usecases.AddTodoUseCase
 import com.example.todoapp.domain.usecases.ListTodosUseCase
 
-class TodoFragment : Fragment(), OnTodoCheckListener {
+class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
 
     private var _binding: FragmentTodoBinding? = null
     private val binding get() = _binding!!
@@ -48,7 +48,8 @@ class TodoFragment : Fragment(), OnTodoCheckListener {
 
     private fun setupRecyclerView() {
         todoAdapter = TodoAdapter(
-            listener = this
+            listener = this,
+            deleteListener = this
         )
 
         binding.recyclerView.apply {
@@ -100,5 +101,9 @@ class TodoFragment : Fragment(), OnTodoCheckListener {
     override fun onTodoCheckChanged(todo: ToDo, isChecked: Boolean) {
         val updatedTodo = todo.copy(isCompleted = isChecked)
         viewModel.update(updatedTodo)
+    }
+
+    override fun onTodoDelete(todo: ToDo) {
+        viewModel.remove(todo)
     }
 }
