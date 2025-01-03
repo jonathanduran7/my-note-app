@@ -6,13 +6,16 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.todoapp.R
 import com.example.todoapp.domain.models.ToDo
 
-class TodoAdapter: ListAdapter<ToDo, TodoViewHolder>(TodoDiffCallBack()) {
+class TodoAdapter(
+    private val listener: OnTodoCheckListener
+): ListAdapter<ToDo, TodoViewHolder>(TodoDiffCallBack()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_todo, parent, false)
         return TodoViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val todo = getItem(position)
+        holder.bind(todo, listener)
     }
 }
