@@ -10,7 +10,10 @@ class TodoRepository(private val todoDao: TodoDao) {
     }
 
     suspend fun update(todo: ToDo) {
-        todoDao.update(todo)
+        val todoDatabase = todoDao.getAll().find { it.id == todo.id }
+        if (todoDatabase != null) {
+            todoDao.update(todo)
+        }
     }
 
     suspend fun delete(todo: ToDo) {
