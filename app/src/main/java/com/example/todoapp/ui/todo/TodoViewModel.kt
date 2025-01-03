@@ -33,6 +33,19 @@ class TodoViewModel(
         this.add(todo)
     }
 
+    fun update(todo: ToDo) {
+        val current = _todos.value.orEmpty().toMutableList()
+        val index = current.indexOfFirst { it.id == todo.id }
+        if (index != -1) {
+            current[index] = todo
+            _todos.value = current
+        }
+
+        viewModelScope.launch {
+            todoRepository.update(todo)
+        }
+    }
+
     init {
         viewModelScope.launch {
             val todos = listTodosUseCase()
