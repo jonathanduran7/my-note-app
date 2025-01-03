@@ -9,8 +9,14 @@ import com.example.todoapp.domain.models.ToDo
 class TodoViewHolder(view: View): RecyclerView.ViewHolder(view) {
     private val checkBox: CheckBox = view.findViewById<CheckBox>(R.id.checkBox)
 
-    fun bind(todo: ToDo) {
+    fun bind(todo: ToDo, listener: OnTodoCheckListener) {
+        checkBox.setOnCheckedChangeListener(null)
+
         checkBox.isChecked = todo.isCompleted
         checkBox.text = todo.title
+
+        checkBox.setOnCheckedChangeListener { _, isChecked ->
+            listener.onTodoCheckChanged(todo, isChecked)
+        }
     }
 }
