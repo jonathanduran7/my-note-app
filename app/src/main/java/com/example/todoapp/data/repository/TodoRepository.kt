@@ -5,8 +5,9 @@ import com.example.todoapp.data.dao.TodoDao
 import com.example.todoapp.domain.models.ToDo
 
 class TodoRepository(private val todoDao: TodoDao) {
-    suspend fun insert(todo: ToDo) {
-        todoDao.insert(todo)
+    suspend fun insert(todo: ToDo): ToDo {
+        val id = todoDao.insert(todo)
+        return todo.copy(id = id.toInt())
     }
 
     suspend fun update(todo: ToDo) {
