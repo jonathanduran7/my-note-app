@@ -3,6 +3,7 @@ package com.example.todoapp.ui.todo
 import android.app.Dialog
 import androidx.fragment.app.viewModels
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -89,7 +90,6 @@ class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
                 )
 
                 viewModel.addTodo(todo)
-                todoAdapter.notifyDataSetChanged()
 
                 dialog.dismiss()
             }
@@ -101,9 +101,11 @@ class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
     override fun onTodoCheckChanged(todo: ToDo, isChecked: Boolean) {
         val updatedTodo = todo.copy(isCompleted = isChecked)
         viewModel.update(updatedTodo)
+        todoAdapter.notifyDataSetChanged()
     }
 
     override fun onTodoDelete(todo: ToDo) {
         viewModel.remove(todo)
+        todoAdapter.notifyDataSetChanged()
     }
 }
