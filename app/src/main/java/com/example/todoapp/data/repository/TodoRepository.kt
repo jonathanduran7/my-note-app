@@ -26,4 +26,8 @@ class TodoRepository(private val todoDao: TodoDao) {
     suspend fun getAll(): List<ToDo> {
         return todoDao.getAll()
     }
+
+    suspend fun search(query: String): List<ToDo> {
+        return todoDao.search(query)
+    }
 }
