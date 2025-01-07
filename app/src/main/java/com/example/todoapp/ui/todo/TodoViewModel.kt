@@ -20,17 +20,17 @@ class TodoViewModel(
     private val _todos = MutableLiveData<List<ToDo>>(emptyList())
     val todos: LiveData<List<ToDo>> = _todos
 
-    fun add(todo: ToDo) {
-        val current = _todos.value.orEmpty().toMutableList()
-        current.add(todo)
-        _todos.value = current
-    }
 
     fun addTodo(todo: ToDo) {
         viewModelScope.launch {
-            addTodoUseCase(todo)
+            val addedTodo = addTodoUseCase(todo)
+
+            val current = _todos.value.orEmpty().toMutableList()
+            current.add(addedTodo)
+            _todos.value = current
         }
-        this.add(todo)
+
+
     }
 
     fun update(todo: ToDo) {
