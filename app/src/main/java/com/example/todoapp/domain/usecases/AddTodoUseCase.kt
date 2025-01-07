@@ -6,5 +6,7 @@ import com.example.todoapp.domain.models.ToDo
 class AddTodoUseCase(
     private val todoRepository: TodoRepository
 ) {
-    suspend operator fun invoke(todo: ToDo) = todoRepository.insert(todo)
+    suspend operator fun invoke(todo: ToDo): ToDo {
+        return todoRepository.insert(todo)
+    }
 }
