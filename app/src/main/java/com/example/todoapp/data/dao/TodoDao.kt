@@ -20,4 +20,7 @@ interface TodoDao {
 
     @Query("SELECT * FROM todo")
     suspend fun getAll(): List<ToDo>
+
+    @Query("SELECT * FROM todo where title like '%' || :query || '%'")
+    suspend fun search(query: String): List<ToDo>
 }
