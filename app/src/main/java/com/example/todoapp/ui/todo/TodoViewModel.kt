@@ -9,12 +9,14 @@ import com.example.todoapp.data.repository.TodoRepository
 import com.example.todoapp.domain.models.ToDo
 import com.example.todoapp.domain.usecases.AddTodoUseCase
 import com.example.todoapp.domain.usecases.ListTodosUseCase
+import com.example.todoapp.domain.usecases.SearchTodosUseCase
 import kotlinx.coroutines.launch
 
 class TodoViewModel(
     private val todoRepository: TodoRepository,
     private val listTodosUseCase: ListTodosUseCase,
-    private val addTodoUseCase: AddTodoUseCase
+    private val addTodoUseCase: AddTodoUseCase,
+    private val searchTodosUseCase: SearchTodosUseCase
 ) : ViewModel() {
 
     private val _todos = MutableLiveData<List<ToDo>>(emptyList())
@@ -61,6 +63,20 @@ class TodoViewModel(
             val todos = listTodosUseCase()
             _todos.value = todos
             Log.i("TodoViewModel", "Todos: $todos")
+        }
+    }
+
+    fun search(query: String) {
+        viewModelScope.launch {
+            val todos = searchTodosUseCase(query)
+            _todos.value = todos
+        }
+    }
+
+    fun getAll() {
+        viewModelScope.launch {
+            val todos = todoRepository.getAll()
+            _todos.value = todos
         }
     }
 

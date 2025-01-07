@@ -1,7 +1,6 @@
 package com.example.todoapp.ui.todo
 
 import android.app.Dialog
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapp.R
@@ -19,6 +19,7 @@ import com.example.todoapp.databinding.FragmentTodoBinding
 import com.example.todoapp.domain.models.ToDo
 import com.example.todoapp.domain.usecases.AddTodoUseCase
 import com.example.todoapp.domain.usecases.ListTodosUseCase
+import com.example.todoapp.domain.usecases.SearchTodosUseCase
 
 class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
 
@@ -40,6 +41,24 @@ class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        setupSearch()
+    }
+
+    private fun setupSearch() {
+        binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                Log.d("TodoFragment", "Query: $query")
+                viewModel.search(query.orEmpty())
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if(newText.isNullOrEmpty()) {
+                    viewModel.getAll()
+                }
+                return true
+            }
+        })
     }
 
     override fun onDestroyView() {
@@ -64,8 +83,9 @@ class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
         val todoRepository = TodoRepository(todoDao)
         val listTodosUseCase = ListTodosUseCase(todoRepository)
         val addTodoUseCase = AddTodoUseCase(todoRepository)
+        val searchTodosUseCase = SearchTodosUseCase(todoRepository)
 
-        viewModel = TodoViewModel(todoRepository, listTodosUseCase, addTodoUseCase)
+        viewModel = TodoViewModel(todoRepository, listTodosUseCase, addTodoUseCase, searchTodosUseCase)
 
         viewModel.todos.observe(viewLifecycleOwner, Observer { todos ->
             todoAdapter.submitList(todos)
