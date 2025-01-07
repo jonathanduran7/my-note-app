@@ -10,7 +10,7 @@ import com.example.todoapp.domain.models.ToDo
 @Dao
 interface TodoDao {
     @Insert
-    suspend fun insert(todo: ToDo)
+    suspend fun insert(todo: ToDo): Long
 
     @Update
     suspend fun update(todo: ToDo)
