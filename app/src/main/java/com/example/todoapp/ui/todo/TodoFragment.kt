@@ -96,6 +96,19 @@ class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
 
             dialog.show()
         }
+
+        //if there are no todos, show the message "No todos" in the center of the screen
+        viewModel.todos.observe(viewLifecycleOwner, Observer { todos ->
+            if (todos.isEmpty()) {
+                binding.noTodos.visibility = View.VISIBLE
+                binding.recyclerView.visibility = View.GONE
+                binding.searchView.visibility = View.GONE
+            } else {
+                binding.noTodos.visibility = View.GONE
+                binding.recyclerView.visibility = View.VISIBLE
+                binding.searchView.visibility = View.VISIBLE
+            }
+        })
     }
 
     override fun onTodoCheckChanged(todo: ToDo, isChecked: Boolean) {
