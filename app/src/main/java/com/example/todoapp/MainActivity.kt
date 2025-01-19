@@ -12,6 +12,10 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.todoapp.databinding.ActivityMainBinding
+import com.example.todoapp.system.injection.usecases
+import com.example.todoapp.system.injection.viewModels
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,6 +24,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        startKoin {
+            androidContext(applicationContext)
+            modules(
+                listOf(
+                    usecases,
+                    viewModels
+                )
+            )
+        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
