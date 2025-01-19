@@ -12,6 +12,8 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.todoapp.databinding.ActivityMainBinding
+import com.example.todoapp.system.injection.respositoriesModule
+import com.example.todoapp.system.injection.roomModule
 import com.example.todoapp.system.injection.usecases
 import com.example.todoapp.system.injection.viewModels
 import org.koin.android.ext.koin.androidContext
@@ -29,7 +31,9 @@ class MainActivity : AppCompatActivity() {
             androidContext(applicationContext)
             modules(
                 listOf(
+                    roomModule,
                     usecases,
+                    respositoriesModule,
                     viewModels
                 )
             )
