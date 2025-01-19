@@ -6,7 +6,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/todoFragment"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/note_text"
             android:title="@string/menu_home" />
     </group>
 </menu>
