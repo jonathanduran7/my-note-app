@@ -9,24 +9,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapp.R
-import com.example.todoapp.data.database.DatabaseInstance
-import com.example.todoapp.data.repository.TodoRepository
 import com.example.todoapp.databinding.FragmentTodoBinding
 import com.example.todoapp.domain.models.ToDo
-import com.example.todoapp.domain.usecases.AddTodoUseCase
-import com.example.todoapp.domain.usecases.ListTodosUseCase
-import com.example.todoapp.domain.usecases.SearchTodosUseCase
+import org.koin.android.ext.android.inject
 
 class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
 
     private var _binding: FragmentTodoBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: TodoViewModel
+    private val viewModel: TodoViewModel by inject()
     private lateinit var todoAdapter: TodoAdapter
 
     override fun onCreateView(
@@ -77,15 +72,6 @@ class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
             adapter = todoAdapter
             setHasFixedSize(true)
         }
-
-        //TODO: refactor this
-        val todoDao = DatabaseInstance.getDatabase(requireContext()).taskDao()
-        val todoRepository = TodoRepository(todoDao)
-        val listTodosUseCase = ListTodosUseCase(todoRepository)
-        val addTodoUseCase = AddTodoUseCase(todoRepository)
-        val searchTodosUseCase = SearchTodosUseCase(todoRepository)
-
-        viewModel = TodoViewModel(todoRepository, listTodosUseCase, addTodoUseCase, searchTodosUseCase)
 
         viewModel.todos.observe(viewLifecycleOwner, Observer { todos ->
             todoAdapter.submitList(todos)
