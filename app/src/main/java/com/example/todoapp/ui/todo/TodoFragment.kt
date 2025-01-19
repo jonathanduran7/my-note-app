@@ -37,6 +37,8 @@ class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupSearch()
+        setupDialog()
+        setupEmptyState()
     }
 
     private fun setupSearch() {
@@ -76,8 +78,35 @@ class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
         viewModel.todos.observe(viewLifecycleOwner, Observer { todos ->
             todoAdapter.submitList(todos)
         })
+    }
 
-        //TODO: REFACTOR THIS
+    override fun onTodoCheckChanged(todo: ToDo, isChecked: Boolean) {
+        val updatedTodo = todo.copy(isCompleted = isChecked)
+        viewModel.update(updatedTodo)
+        todoAdapter.notifyDataSetChanged()
+    }
+
+    override fun onTodoDelete(todo: ToDo) {
+        viewModel.remove(todo)
+        todoAdapter.notifyDataSetChanged()
+    }
+
+    private fun setupEmptyState(){
+        //if there are no todos, show the message "No todos" in the center of the screen
+        viewModel.todos.observe(viewLifecycleOwner, Observer { todos ->
+            if (todos.isEmpty()) {
+                binding.noTodos.visibility = View.VISIBLE
+                binding.recyclerView.visibility = View.GONE
+                binding.searchView.visibility = View.GONE
+            } else {
+                binding.noTodos.visibility = View.GONE
+                binding.recyclerView.visibility = View.VISIBLE
+                binding.searchView.visibility = View.VISIBLE
+            }
+        })
+    }
+
+    private fun setupDialog() {
         binding.addButton.setOnClickListener {
             val dialog = Dialog(requireContext())
             dialog.setContentView(R.layout.dialog_todo)
@@ -102,29 +131,5 @@ class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
 
             dialog.show()
         }
-
-        //if there are no todos, show the message "No todos" in the center of the screen
-        viewModel.todos.observe(viewLifecycleOwner, Observer { todos ->
-            if (todos.isEmpty()) {
-                binding.noTodos.visibility = View.VISIBLE
-                binding.recyclerView.visibility = View.GONE
-                binding.searchView.visibility = View.GONE
-            } else {
-                binding.noTodos.visibility = View.GONE
-                binding.recyclerView.visibility = View.VISIBLE
-                binding.searchView.visibility = View.VISIBLE
-            }
-        })
-    }
-
-    override fun onTodoCheckChanged(todo: ToDo, isChecked: Boolean) {
-        val updatedTodo = todo.copy(isCompleted = isChecked)
-        viewModel.update(updatedTodo)
-        todoAdapter.notifyDataSetChanged()
-    }
-
-    override fun onTodoDelete(todo: ToDo) {
-        viewModel.remove(todo)
-        todoAdapter.notifyDataSetChanged()
     }
 }
