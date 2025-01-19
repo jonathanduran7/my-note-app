@@ -44,7 +44,6 @@ class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
     private fun setupSearch() {
         binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                Log.d("TodoFragment", "Query: $query")
                 viewModel.search(query.orEmpty())
                 return true
             }

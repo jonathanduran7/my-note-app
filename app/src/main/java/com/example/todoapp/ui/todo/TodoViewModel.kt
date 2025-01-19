@@ -62,7 +62,6 @@ class TodoViewModel(
         viewModelScope.launch {
             val todos = listTodosUseCase()
             _todos.value = todos
-            Log.i("TodoViewModel", "Todos: $todos")
         }
     }
 
@@ -79,6 +78,4 @@ class TodoViewModel(
             _todos.value = todos
         }
     }
-
-    // TODO: Implement the ViewModel
 }
