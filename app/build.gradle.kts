@@ -39,6 +39,8 @@ android {
     }
 }
 
+val koinVersion = "3.5.0"
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -60,4 +62,13 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Core Koin
+    implementation("io.insert-koin:koin-core:$koinVersion")
+
+    // Koin for Android (if you're using Android)
+    implementation("io.insert-koin:koin-android:$koinVersion")
+//    implementation("io.insert-koin:koin-androidx-viewmodel:$koinVersion")
+
+
 }
