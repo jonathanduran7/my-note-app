@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="10dp"
     android:layout_height="60dp">
 
     <LinearLayout
@@ -31,6 +32,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/updateCategoryBtn"
             android:backgroundTint="@color/black"
+            android:textColor="@color/white"
             android:text="@string/update" />
 
     </LinearLayout>
