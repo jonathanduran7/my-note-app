@@ -24,6 +24,6 @@
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.example.todoapp.ui.category.CategoryFragment"
-        android:label="fragment_category"
+        android:label="Categories"
         tools:layout="@layout/fragment_category" />
 </navigation>
