@@ -12,13 +12,15 @@ import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentCategoryBinding
+import com.example.todoapp.domain.models.Category
+import org.koin.android.ext.android.inject
 
 class CategoryFragment : Fragment() {
 
     private var _binding: FragmentCategoryBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: CategoryViewModel by viewModels()
+    private val viewModel: CategoryViewModel by inject()
     private lateinit var categoryAdapter: CategoryAdapter
 
     override fun onCreateView(
@@ -53,16 +55,22 @@ class CategoryFragment : Fragment() {
         binding.addCategoryBtn.setOnClickListener {
             val dialog = Dialog(requireContext())
             dialog.setContentView(R.layout.dialog_category)
-
             dialog.setCancelable(true)
-            dialog.show()
 
             val buttonSaveCategory = dialog.findViewById<Button>(R.id.buttonSaveCategory)
-            val categoryName = dialog.findViewById<EditText>(R.id.categoryName)
+            val categoryName = dialog.findViewById<EditText>(R.id.editTextCategory)
 
             buttonSaveCategory.setOnClickListener {
+                if (categoryName.text.toString().isEmpty()) {
+                    return@setOnClickListener
+                }
+
+                val category = Category(name = categoryName.text.toString())
+                viewModel.addCategory(category)
+                categoryAdapter.notifyDataSetChanged()
                 dialog.dismiss()
             }
+            dialog.show()
         }
     }
 }
