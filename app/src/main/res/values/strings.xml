@@ -14,4 +14,9 @@
 
     <string name="delete">Delete</string>
     <string name="update">Update</string>
+
+    <string name="dialog_title_category">Crear categoria</string>
+    <string name="dialog_input_category">Nombre de la categoria</string>
+
+    <string name="save">Guardar</string>
 </resources>
