@@ -2,6 +2,7 @@ package com.example.todoapp.data.database
 
 import android.content.Context
 import androidx.room.Room
+import com.example.todoapp.data.database.migrations.MIGRATION_1_2
 
 object DatabaseInstance {
     @Volatile
@@ -13,7 +14,9 @@ object DatabaseInstance {
                 context.applicationContext,
                 AppDatabase::class.java,
                 "tasks_database"
-            ).build()
+            )
+                .addMigrations(MIGRATION_1_2)
+                .build()
             INSTANCE = instance
             instance
         }
