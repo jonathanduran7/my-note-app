@@ -14,4 +14,5 @@ val roomModule = module {
         ).build()
     }
     single { get<AppDatabase>().taskDao() }
+    single { get<AppDatabase>().categoryDao() }
 }
