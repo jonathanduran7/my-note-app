@@ -1,11 +1,14 @@
 package com.example.todoapp.ui.category
 
+import android.app.Dialog
 import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentCategoryBinding
@@ -30,6 +33,7 @@ class CategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        setupDialog()
     }
 
     private fun setupRecyclerView() {
@@ -42,6 +46,23 @@ class CategoryFragment : Fragment() {
 
         viewModel.categories.observe(viewLifecycleOwner) {
             categoryAdapter.submitList(it)
+        }
+    }
+
+    private fun setupDialog(){
+        binding.addCategoryBtn.setOnClickListener {
+            val dialog = Dialog(requireContext())
+            dialog.setContentView(R.layout.dialog_category)
+
+            dialog.setCancelable(true)
+            dialog.show()
+
+            val buttonSaveCategory = dialog.findViewById<Button>(R.id.buttonSaveCategory)
+            val categoryName = dialog.findViewById<EditText>(R.id.categoryName)
+
+            buttonSaveCategory.setOnClickListener {
+                dialog.dismiss()
+            }
         }
     }
 }
