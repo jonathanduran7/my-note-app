@@ -3,20 +3,39 @@ package com.example.todoapp.ui.category
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.todoapp.domain.models.Category
-import com.example.todoapp.domain.models.ToDo
+import com.example.todoapp.domain.usecases.category.AddCategoryUseCase
+import com.example.todoapp.domain.usecases.category.ListCategoryUseCase
+import kotlinx.coroutines.launch
 
-class CategoryViewModel : ViewModel() {
+class CategoryViewModel(
+    private val addCategoryUseCase: AddCategoryUseCase,
+    private val listCategoryUseCase: ListCategoryUseCase
+) : ViewModel() {
 
     private val _categories = MutableLiveData<List<Category>>(emptyList())
     val categories: LiveData<List<Category>> = _categories
 
     init {
-        _categories.value = listOf(
-            Category(1, "Work"),
-            Category(2, "Personal"),
-            Category(3, "Shopping")
-        )
+       getAll()
+    }
+
+    fun addCategory(category: Category) {
+        viewModelScope.launch {
+            val addedCategory = addCategoryUseCase(category)
+
+            val current = _categories.value.orEmpty().toMutableList()
+            current.add(addedCategory)
+            _categories.value = current
+        }
+    }
+
+    fun getAll(){
+        viewModelScope.launch {
+            val categories = listCategoryUseCase()
+            _categories.value = categories
+        }
     }
 
 }
