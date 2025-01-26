@@ -7,13 +7,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.SimpleAdapter
+import android.widget.Spinner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentTodoBinding
 import com.example.todoapp.domain.models.ToDo
+import com.example.todoapp.ui.category.CategoryAdapter
 import org.koin.android.ext.android.inject
 
 class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
@@ -114,6 +118,33 @@ class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
 
             val editTextTodo = dialog.findViewById<EditText>(R.id.editTextTodo)
             val buttonAddTodo = dialog.findViewById<Button>(R.id.buttonAddTodo)
+            val spinnerCategory = dialog.findViewById<Spinner>(R.id.spinnerCategory)
+
+            viewModel.getAllCategories()
+
+            viewModel.categories.observe(viewLifecycleOwner, Observer { categories ->
+                val simpleAdapter = SimpleAdapter(
+                    requireContext(),
+                    categories.map { mapOf("name" to it.name) },
+                    android.R.layout.simple_spinner_item,
+                    arrayOf("name"),
+                    intArrayOf(android.R.id.text1)
+                )
+
+                spinnerCategory.adapter = simpleAdapter
+
+                spinnerCategory.setSelection(0)
+
+                spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        Log.d("TodoFragment", "Selected category: ${categories[position]}")
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        Log.d("TodoFragment", "Nothing selected")
+                    }
+                }
+            })
 
             buttonAddTodo.setOnClickListener {
                 val todoText = editTextTodo.text.toString()
