@@ -15,10 +15,19 @@
         android:padding="10dp"
         android:textSize="20sp" />
 
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerCategory"
+        android:layout_marginTop="16dp"
+        android:padding="10dp"
+        android:textSize="20sp" />
+
     <Button
         android:id="@+id/buttonAddTodo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Add Todo"
         android:textSize="20sp" />
 
