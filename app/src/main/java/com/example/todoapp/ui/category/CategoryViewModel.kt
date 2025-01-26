@@ -8,12 +8,14 @@ import com.example.todoapp.domain.models.Category
 import com.example.todoapp.domain.usecases.category.AddCategoryUseCase
 import com.example.todoapp.domain.usecases.category.ListCategoryUseCase
 import com.example.todoapp.domain.usecases.category.RemoveCategoryUseCase
+import com.example.todoapp.domain.usecases.category.UpdateCategoryUseCase
 import kotlinx.coroutines.launch
 
 class CategoryViewModel(
     private val addCategoryUseCase: AddCategoryUseCase,
     private val listCategoryUseCase: ListCategoryUseCase,
-    private val removeCategoryUseCase: RemoveCategoryUseCase
+    private val removeCategoryUseCase: RemoveCategoryUseCase,
+    private val updateCategoryUseCase: UpdateCategoryUseCase
 ) : ViewModel() {
 
     private val _categories = MutableLiveData<List<Category>>(emptyList())
@@ -45,6 +47,18 @@ class CategoryViewModel(
             removeCategoryUseCase(category.id)
             val current = _categories.value.orEmpty().toMutableList()
             current.remove(category)
+            _categories.value = current
+        }
+    }
+
+    fun updateCategory(category: Category) {
+        viewModelScope.launch {
+            updateCategoryUseCase(category)
+            val current = _categories.value.orEmpty().toMutableList()
+            val index = current.indexOfFirst { it.id == category.id }
+            if (index != -1) {
+                current[index] = category
+            }
             _categories.value = current
         }
     }
