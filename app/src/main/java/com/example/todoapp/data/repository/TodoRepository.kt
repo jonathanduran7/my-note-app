@@ -3,6 +3,7 @@ package com.example.todoapp.data.repository
 import android.util.Log
 import com.example.todoapp.data.dao.TodoDao
 import com.example.todoapp.domain.models.ToDo
+import com.example.todoapp.domain.models.TodoWithCategory
 
 class TodoRepository(private val todoDao: TodoDao) {
     suspend fun insert(todo: ToDo): ToDo {
@@ -11,7 +12,7 @@ class TodoRepository(private val todoDao: TodoDao) {
     }
 
     suspend fun update(todo: ToDo) {
-        val todoDatabase = todoDao.getAll().find { it.id == todo.id }
+        val todoDatabase = todoDao.getAll().find { it.todo.id == todo.id }
         if (todoDatabase != null) {
             todoDao.update(todo)
         }
@@ -21,7 +22,7 @@ class TodoRepository(private val todoDao: TodoDao) {
         todoDao.delete(todoId)
     }
 
-    suspend fun getAll(): List<ToDo> {
+    suspend fun getAll(): List<TodoWithCategory> {
         return todoDao.getAll()
     }
 
