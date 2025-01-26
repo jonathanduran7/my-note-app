@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.repository.TodoRepository
 import com.example.todoapp.domain.models.Category
 import com.example.todoapp.domain.models.ToDo
+import com.example.todoapp.domain.models.TodoWithCategory
 import com.example.todoapp.domain.usecases.AddTodoUseCase
 import com.example.todoapp.domain.usecases.ListTodosUseCase
 import com.example.todoapp.domain.usecases.SearchTodosUseCase
@@ -22,8 +23,8 @@ class TodoViewModel(
     private val listCagetoriesUseCase: ListCategoryUseCase
 ) : ViewModel() {
 
-    private val _todos = MutableLiveData<List<ToDo>>(emptyList())
-    val todos: LiveData<List<ToDo>> = _todos
+    private val _todos = MutableLiveData<List<TodoWithCategory>>(emptyList())
+    val todos: LiveData<List<TodoWithCategory>> = _todos
     private val _categories = MutableLiveData<List<Category>>(emptyList())
     val categories: LiveData<List<Category>> = _categories
 
@@ -33,8 +34,8 @@ class TodoViewModel(
             val addedTodo = addTodoUseCase(todo)
 
             val current = _todos.value.orEmpty().toMutableList()
-            current.add(addedTodo)
-            _todos.value = current
+//            current.add(addedTodo)
+//            _todos.value = current
         }
 
 
@@ -42,9 +43,9 @@ class TodoViewModel(
 
     fun update(todo: ToDo) {
         val current = _todos.value.orEmpty().toMutableList()
-        val index = current.indexOfFirst { it.id == todo.id }
+        val index = current.indexOfFirst { it.todo.id == todo.id }
         if (index != -1) {
-            current[index] = todo
+            current[index].todo = todo
             _todos.value = current
         }
 
@@ -55,7 +56,7 @@ class TodoViewModel(
 
     fun remove(todo: ToDo) {
         val current = _todos.value.orEmpty().toMutableList()
-        current.remove(todo)
+//        current.remove(todo)
         _todos.value = current
 
         viewModelScope.launch {
@@ -65,15 +66,16 @@ class TodoViewModel(
 
     init {
         viewModelScope.launch {
-            val todos = listTodosUseCase()
-            _todos.value = todos
+            val listTodo = listTodosUseCase()
+            Log.d("TodoViewModel", "init: $todos")
+            _todos.value = listTodo
         }
     }
 
     fun search(query: String) {
         viewModelScope.launch {
             val todos = searchTodosUseCase(query)
-            _todos.value = todos
+//            _todos.value = todos
         }
     }
 
