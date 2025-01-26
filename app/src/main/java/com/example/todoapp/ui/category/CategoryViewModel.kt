@@ -7,11 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.todoapp.domain.models.Category
 import com.example.todoapp.domain.usecases.category.AddCategoryUseCase
 import com.example.todoapp.domain.usecases.category.ListCategoryUseCase
+import com.example.todoapp.domain.usecases.category.RemoveCategoryUseCase
 import kotlinx.coroutines.launch
 
 class CategoryViewModel(
     private val addCategoryUseCase: AddCategoryUseCase,
-    private val listCategoryUseCase: ListCategoryUseCase
+    private val listCategoryUseCase: ListCategoryUseCase,
+    private val removeCategoryUseCase: RemoveCategoryUseCase
 ) : ViewModel() {
 
     private val _categories = MutableLiveData<List<Category>>(emptyList())
@@ -38,4 +40,12 @@ class CategoryViewModel(
         }
     }
 
+    fun removeCategory(category: Category) {
+        viewModelScope.launch {
+            removeCategoryUseCase(category.id)
+            val current = _categories.value.orEmpty().toMutableList()
+            current.remove(category)
+            _categories.value = current
+        }
+    }
 }
