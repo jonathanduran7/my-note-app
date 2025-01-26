@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentTodoBinding
 import com.example.todoapp.domain.models.ToDo
+import com.example.todoapp.domain.models.TodoWithCategory
 import com.example.todoapp.ui.category.CategoryAdapter
 import org.koin.android.ext.android.inject
 
@@ -83,14 +84,14 @@ class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
         })
     }
 
-    override fun onTodoCheckChanged(todo: ToDo, isChecked: Boolean) {
-        val updatedTodo = todo.copy(isCompleted = isChecked)
+    override fun onTodoCheckChanged(todo: TodoWithCategory, isChecked: Boolean) {
+        val updatedTodo = todo.todo.copy(isCompleted = isChecked)
         viewModel.update(updatedTodo)
         todoAdapter.notifyDataSetChanged()
     }
 
-    override fun onTodoDelete(todo: ToDo) {
-        viewModel.remove(todo)
+    override fun onTodoDelete(todo: TodoWithCategory) {
+        viewModel.remove(todo.todo)
         todoAdapter.notifyDataSetChanged()
     }
 
@@ -119,6 +120,7 @@ class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
             val editTextTodo = dialog.findViewById<EditText>(R.id.editTextTodo)
             val buttonAddTodo = dialog.findViewById<Button>(R.id.buttonAddTodo)
             val spinnerCategory = dialog.findViewById<Spinner>(R.id.spinnerCategory)
+            var categoryId: Int? = null
 
             viewModel.getAllCategories()
 
@@ -138,6 +140,7 @@ class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
                 spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         Log.d("TodoFragment", "Selected category: ${categories[position]}")
+                        categoryId = categories[position].id
                     }
 
                     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -151,7 +154,8 @@ class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
 
                 val todo = ToDo(
                     title = todoText,
-                    isCompleted = false
+                    isCompleted = false,
+                    categoryId = categoryId
                 )
 
                 viewModel.addTodo(todo)
