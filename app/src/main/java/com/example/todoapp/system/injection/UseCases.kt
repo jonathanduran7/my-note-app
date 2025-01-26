@@ -8,6 +8,7 @@ import com.example.todoapp.domain.usecases.UpdateTodoUseCase
 import com.example.todoapp.domain.usecases.category.AddCategoryUseCase
 import com.example.todoapp.domain.usecases.category.ListCategoryUseCase
 import com.example.todoapp.domain.usecases.category.RemoveCategoryUseCase
+import com.example.todoapp.domain.usecases.category.UpdateCategoryUseCase
 import org.koin.dsl.module
 
 val usecases = module {
@@ -19,4 +20,5 @@ val usecases = module {
     factory { AddCategoryUseCase(get()) }
     factory { ListCategoryUseCase(get()) }
     factory { RemoveCategoryUseCase(get()) }
+    factory { UpdateCategoryUseCase(get()) }
 }
