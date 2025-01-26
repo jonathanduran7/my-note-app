@@ -12,9 +12,12 @@ class CategoryViewHolder(view: View): RecyclerView.ViewHolder(view) {
     private val editBtn: Button = view.findViewById<Button>(R.id.updateCategoryBtn)
     private val categoryName: TextView = view.findViewById<TextView>(R.id.categoryName)
 
-    fun bind(category: Category){
+    fun bind(category: Category, onDeleteListener: OnCategoryDelete){
         categoryName.text = category.name
 
+        deleteBtn.setOnClickListener {
+            onDeleteListener.onCategoryDelete(category)
+        }
         //TODO: implement delete and edit button
     }
 }
