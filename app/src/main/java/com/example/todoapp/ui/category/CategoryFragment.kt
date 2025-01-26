@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentCategoryBinding
@@ -87,7 +88,30 @@ class CategoryFragment : Fragment(), OnCategoryDelete, OnCategoryEdit {
     }
 
     override fun onCategoryEdit(category: Category) {
-        viewModel.updateCategory(category)
-        categoryAdapter.notifyDataSetChanged()
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.dialog_category)
+        dialog.setCancelable(true)
+
+        dialog.findViewById<TextView>(R.id.textViewTitle).text = "Editar Categoria"
+        dialog.findViewById<Button>(R.id.buttonSaveCategory).text = "Editar"
+
+        dialog.findViewById<EditText>(R.id.editTextCategory).setText(category.name)
+
+        dialog.findViewById<Button>(R.id.buttonSaveCategory).setOnClickListener {
+            val categoryName = dialog.findViewById<EditText>(R.id.editTextCategory)
+            if (categoryName.text.toString().isEmpty()) {
+                return@setOnClickListener
+            }
+
+            val category = Category(
+                id = category.id,
+                name = categoryName.text.toString()
+            )
+            viewModel.updateCategory(category)
+            categoryAdapter.notifyDataSetChanged()
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }
