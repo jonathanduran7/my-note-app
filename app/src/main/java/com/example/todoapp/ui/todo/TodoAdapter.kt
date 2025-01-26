@@ -5,11 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.todoapp.R
 import com.example.todoapp.domain.models.ToDo
+import com.example.todoapp.domain.models.TodoWithCategory
 
 class TodoAdapter(
     private val listener: OnTodoCheckListener,
     private val deleteListener: OnTodoDelete
-): ListAdapter<ToDo, TodoViewHolder>(TodoDiffCallBack()) {
+): ListAdapter<TodoWithCategory, TodoViewHolder>(TodoDiffCallBack()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_todo, parent, false)
         return TodoViewHolder(view)
