@@ -1,7 +1,6 @@
 package com.example.todoapp.ui.category
 
 import android.app.Dialog
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,7 +14,7 @@ import com.example.todoapp.databinding.FragmentCategoryBinding
 import com.example.todoapp.domain.models.Category
 import org.koin.android.ext.android.inject
 
-class CategoryFragment : Fragment(), OnCategoryDelete {
+class CategoryFragment : Fragment(), OnCategoryDelete, OnCategoryEdit {
 
     private var _binding: FragmentCategoryBinding? = null
     private val binding get() = _binding!!
@@ -40,6 +39,7 @@ class CategoryFragment : Fragment(), OnCategoryDelete {
 
     private fun setupRecyclerView() {
         categoryAdapter = CategoryAdapter(
+            this,
             this
         )
         binding.rvCategory.apply {
@@ -83,6 +83,11 @@ class CategoryFragment : Fragment(), OnCategoryDelete {
 
     override fun onCategoryDelete(category: Category) {
         viewModel.removeCategory(category)
+        categoryAdapter.notifyDataSetChanged()
+    }
+
+    override fun onCategoryEdit(category: Category) {
+        viewModel.updateCategory(category)
         categoryAdapter.notifyDataSetChanged()
     }
 }

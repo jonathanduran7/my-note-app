@@ -7,7 +7,8 @@ import com.example.todoapp.domain.models.Category
 import com.example.todoapp.R
 
 class CategoryAdapter(
-    private val onDeleteListener: OnCategoryDelete
+    private val onDeleteListener: OnCategoryDelete,
+    private val onEditListener: OnCategoryEdit
 ): ListAdapter<Category, CategoryViewHolder>(CategoryDiffCallBack()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_cateogry, parent, false)
@@ -15,6 +16,6 @@ class CategoryAdapter(
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.bind(getItem(position), onDeleteListener)
+        holder.bind(getItem(position), onDeleteListener, onEditListener)
     }
 }
