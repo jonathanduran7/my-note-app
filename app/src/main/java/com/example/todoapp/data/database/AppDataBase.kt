@@ -7,7 +7,7 @@ import com.example.todoapp.data.dao.TodoDao
 import com.example.todoapp.domain.models.Category
 import com.example.todoapp.domain.models.ToDo
 
-@Database(entities = [ToDo::class, Category::class], version = 2, exportSchema = false)
+@Database(entities = [ToDo::class, Category::class], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun taskDao(): TodoDao
     abstract fun categoryDao(): CategoryDao
