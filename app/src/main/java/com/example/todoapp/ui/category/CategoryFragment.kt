@@ -15,7 +15,7 @@ import com.example.todoapp.databinding.FragmentCategoryBinding
 import com.example.todoapp.domain.models.Category
 import org.koin.android.ext.android.inject
 
-class CategoryFragment : Fragment() {
+class CategoryFragment : Fragment(), OnCategoryDelete {
 
     private var _binding: FragmentCategoryBinding? = null
     private val binding get() = _binding!!
@@ -39,7 +39,9 @@ class CategoryFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        categoryAdapter = CategoryAdapter()
+        categoryAdapter = CategoryAdapter(
+            this
+        )
         binding.rvCategory.apply {
             adapter = categoryAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -72,5 +74,15 @@ class CategoryFragment : Fragment() {
             }
             dialog.show()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onCategoryDelete(category: Category) {
+        viewModel.removeCategory(category)
+        categoryAdapter.notifyDataSetChanged()
     }
 }
