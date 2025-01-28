@@ -31,14 +31,9 @@ class TodoViewModel(
 
     fun addTodo(todo: ToDo) {
         viewModelScope.launch {
-            val addedTodo = addTodoUseCase(todo)
-
-            val current = _todos.value.orEmpty().toMutableList()
-//            current.add(addedTodo)
-//            _todos.value = current
+            addTodoUseCase(todo)
+            getAll()
         }
-
-
     }
 
     fun update(todo: ToDo) {

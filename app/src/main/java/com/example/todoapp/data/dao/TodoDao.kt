@@ -1,7 +1,6 @@
 package com.example.todoapp.data.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
@@ -26,6 +25,4 @@ interface TodoDao {
 
     @Query("SELECT * FROM todo where title like '%' || :query || '%'")
     suspend fun search(query: String): List<ToDo>
-
-
 }
