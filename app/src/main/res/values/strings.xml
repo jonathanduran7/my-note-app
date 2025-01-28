@@ -18,5 +18,10 @@
     <string name="dialog_title_category">Crear categoria</string>
     <string name="dialog_input_category">Nombre de la categoria</string>
 
+    <string name="dialog_edit_category">Editar categoria</string>
+
     <string name="save">Guardar</string>
+
+    <string name="dialog_title_confirm">Confirmar</string>
+    <string name="dialog_description_category">¿Estas seguro de eliminar esta categoria? Todos los todos asociados a esta categoria seran eliminados.</string>
 </resources>

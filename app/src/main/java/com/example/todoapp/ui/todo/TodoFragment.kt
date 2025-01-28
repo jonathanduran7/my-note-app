@@ -139,12 +139,10 @@ class TodoFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
 
                 spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        Log.d("TodoFragment", "Selected category: ${categories[position]}")
                         categoryId = categories[position].id
                     }
 
                     override fun onNothingSelected(parent: AdapterView<*>?) {
-                        Log.d("TodoFragment", "Nothing selected")
                     }
                 }
             })

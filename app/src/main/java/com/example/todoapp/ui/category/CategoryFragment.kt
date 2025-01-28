@@ -92,8 +92,8 @@ class CategoryFragment : Fragment(), OnCategoryDelete, OnCategoryEdit {
         dialog.setContentView(R.layout.dialog_category)
         dialog.setCancelable(true)
 
-        dialog.findViewById<TextView>(R.id.textViewTitle).text = "Editar Categoria"
-        dialog.findViewById<Button>(R.id.buttonSaveCategory).text = "Editar"
+        dialog.findViewById<TextView>(R.id.textViewTitle).text = getString(R.string.dialog_edit_category)
+        dialog.findViewById<Button>(R.id.buttonSaveCategory).text = getString(R.string.update)
 
         dialog.findViewById<EditText>(R.id.editTextCategory).setText(category.name)
 
@@ -119,8 +119,8 @@ class CategoryFragment : Fragment(), OnCategoryDelete, OnCategoryEdit {
         category: Category
     ){
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Confirmacion")
-        builder.setMessage("¿Estas seguro de eliminar esta categoria? Todos los todos asociados a esta categoria seran eliminados.")
+        builder.setTitle(R.string.dialog_title_confirm)
+        builder.setMessage(getString(R.string.dialog_description_category))
 
         builder.setPositiveButton("Si") { dialog, which ->
             viewModel.removeCategory(category)

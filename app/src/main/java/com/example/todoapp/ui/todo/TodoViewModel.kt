@@ -59,7 +59,6 @@ class TodoViewModel(
     init {
         viewModelScope.launch {
             val listTodo = listTodosUseCase()
-            Log.d("TodoViewModel", "init: $todos")
             _todos.value = listTodo
         }
     }
