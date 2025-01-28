@@ -24,5 +24,5 @@ interface TodoDao {
     suspend fun getAll(): List<TodoWithCategory>
 
     @Query("SELECT * FROM todo where title like '%' || :query || '%'")
-    suspend fun search(query: String): List<ToDo>
+    suspend fun search(query: String): List<TodoWithCategory>
 }

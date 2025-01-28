@@ -67,7 +67,7 @@ class TodoViewModel(
     fun search(query: String) {
         viewModelScope.launch {
             val todos = searchTodosUseCase(query)
-//            _todos.value = todos
+            _todos.value = todos
         }
     }
 

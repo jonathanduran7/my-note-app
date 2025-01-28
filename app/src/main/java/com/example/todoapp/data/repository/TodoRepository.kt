@@ -1,6 +1,5 @@
 package com.example.todoapp.data.repository
 
-import android.util.Log
 import com.example.todoapp.data.dao.TodoDao
 import com.example.todoapp.domain.models.ToDo
 import com.example.todoapp.domain.models.TodoWithCategory
@@ -26,7 +25,7 @@ class TodoRepository(private val todoDao: TodoDao) {
         return todoDao.getAll()
     }
 
-    suspend fun search(query: String): List<ToDo> {
+    suspend fun search(query: String): List<TodoWithCategory> {
         return todoDao.search(query)
     }
 }
