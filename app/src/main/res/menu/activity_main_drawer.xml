@@ -5,9 +5,14 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/todoFragment"
+            android:id="@+id/homeFragment"
             android:icon="@drawable/note_text"
             android:title="@string/menu_home" />
+
+        <item
+            android:id="@+id/todoFragment"
+            android:icon="@drawable/note_text"
+            android:title="@string/menu_tasks" />
 
         <item
             android:id="@+id/categoryFragment"
