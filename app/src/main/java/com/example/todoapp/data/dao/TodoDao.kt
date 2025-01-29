@@ -25,4 +25,7 @@ interface TodoDao {
 
     @Query("SELECT * FROM todo where title like '%' || :query || '%'")
     suspend fun search(query: String): List<TodoWithCategory>
+
+    @Query("SELECT * FROM todo ORDER BY id DESC LIMIT 4")
+    suspend fun getRecentlyAdded(): List<TodoWithCategory>
 }
