@@ -28,4 +28,8 @@ class TodoRepository(private val todoDao: TodoDao) {
     suspend fun search(query: String): List<TodoWithCategory> {
         return todoDao.search(query)
     }
+
+    suspend fun getRecentlyAdded(): List<TodoWithCategory> {
+        return todoDao.getRecentlyAdded()
+    }
 }
