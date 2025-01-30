@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentHomeBinding
+import com.example.todoapp.domain.models.Category
 import com.example.todoapp.domain.models.TodoWithCategory
 import com.example.todoapp.ui.todo.OnTodoCheckListener
 import com.example.todoapp.ui.todo.OnTodoDelete
@@ -23,6 +24,7 @@ class HomeFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
 
     private val homeViewModel: HomeViewModel by inject()
     private lateinit var homeAdapter : HomeAdapter
+    private var categoryAdapter: CategoryAdapter = CategoryAdapter()
 
     private val navController by lazy { findNavController() }
 
@@ -38,6 +40,7 @@ class HomeFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        setupCategories()
         setupListeners()
     }
 
@@ -74,5 +77,25 @@ class HomeFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
 
     private fun navigateToCreateTodo() {
         navController.navigate(R.id.todoFragment)
+    }
+
+    private fun setupCategories(){
+        //TODO: Replace this with actual data
+        val items = listOf(
+            Category(1, "Personal"),
+            Category(2, "Work"),
+            Category(3, "Home"),
+            Category(4, "School"),
+            Category(5, "Other")
+        )
+
+        binding.recyclerViewCategories.apply {
+            adapter = categoryAdapter
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+        }
+
+        categoryAdapter.submitList(items)
+        categoryAdapter.notifyDataSetChanged()
     }
 }
