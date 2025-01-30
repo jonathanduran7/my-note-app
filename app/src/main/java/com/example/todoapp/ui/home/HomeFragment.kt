@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentHomeBinding
 import com.example.todoapp.domain.models.TodoWithCategory
 import com.example.todoapp.ui.todo.OnTodoCheckListener
@@ -22,6 +24,8 @@ class HomeFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
     private val homeViewModel: HomeViewModel by inject()
     private lateinit var homeAdapter : HomeAdapter
 
+    private val navController by lazy { findNavController() }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,6 +38,7 @@ class HomeFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        setupListeners()
     }
 
     private fun setupRecyclerView() {
@@ -57,7 +62,17 @@ class HomeFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
         }
     }
 
+    private fun setupListeners() {
+        binding.buttonViewMore.setOnClickListener {
+            navigateToCreateTodo()
+        }
+    }
+
     override fun onTodoCheckChanged(todo: TodoWithCategory, isChecked: Boolean) {}
 
     override fun onTodoDelete(todo: TodoWithCategory) {}
+
+    private fun navigateToCreateTodo() {
+        navController.navigate(R.id.todoFragment)
+    }
 }
