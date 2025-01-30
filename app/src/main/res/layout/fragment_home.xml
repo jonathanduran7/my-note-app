@@ -8,10 +8,20 @@
     tools:context=".ui.home.HomeFragment">
 
     <TextView
+        android:id="@+id/text_view_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Categorias"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
         android:id="@+id/text_view_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="Agregadas recientemente" />
