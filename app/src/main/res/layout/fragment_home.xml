@@ -15,20 +15,33 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="15dp"
         />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_categories"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/text_view_title"
+        app:layout_constraintStart_toStartOf="@id/text_view_title"
+        app:layout_constraintEnd_toEndOf="@id/text_view_title"
+        android:orientation="horizontal"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+
     <TextView
+        android:layout_marginTop="20dp"
         android:id="@+id/text_view_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/text_view_title"
+        app:layout_constraintTop_toBottomOf="@id/recycler_view_categories"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="Agregadas recientemente" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_home"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/text_view_home"
         app:layout_constraintStart_toStartOf="@id/text_view_home"
         app:layout_constraintEnd_toEndOf="@id/text_view_home"
