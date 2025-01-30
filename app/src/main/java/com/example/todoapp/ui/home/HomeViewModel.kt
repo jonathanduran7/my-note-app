@@ -12,17 +12,20 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
     private val listTodosUseCase: GetRecentlyTodoUseCase
 ) : ViewModel() {
-    private val _todos = MutableLiveData<List<TodoWithCategory>>(emptyList())
+    private val _todos = MutableLiveData<List<TodoWithCategory>>()
     val todos: LiveData<List<TodoWithCategory>> = _todos
 
     private fun getAll() {
         viewModelScope.launch {
-            _todos.value = listTodosUseCase()
-            Log.i("HomeViewModel", "getAll: ${_todos.value}")
+            _todos.value = listTodosUseCase().toList()
         }
     }
 
     init {
+        getAll()
+    }
+
+    fun refreshTodos() {
         getAll()
     }
 }

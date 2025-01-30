@@ -49,9 +49,12 @@ class HomeFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
         }
 
         homeViewModel.todos.observe(viewLifecycleOwner, Observer { todos ->
-            homeAdapter.submitList(todos)
-//            homeAdapter.notifyDataSetChanged()
+            homeAdapter.submitList(todos.toList())
         })
+
+        binding.recyclerViewHome.post {
+            binding.recyclerViewHome.requestLayout()
+        }
     }
 
     override fun onTodoCheckChanged(todo: TodoWithCategory, isChecked: Boolean) {}
