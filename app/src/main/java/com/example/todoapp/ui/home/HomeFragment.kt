@@ -2,7 +2,6 @@ package com.example.todoapp.ui.home
 
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -45,6 +44,12 @@ class HomeFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
         setupListeners()
     }
 
+    override fun onResume() {
+        super.onResume()
+        homeViewModel.refreshTodos()
+        homeViewModel.getCategories()
+    }
+
     private fun setupRecyclerView() {
         homeAdapter = HomeAdapter(
             this,
@@ -58,7 +63,9 @@ class HomeFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
         }
 
         homeViewModel.todos.observe(viewLifecycleOwner, Observer { todos ->
-            homeAdapter.submitList(todos.toList())
+            homeAdapter.submitList(todos){
+                binding.recyclerViewHome.scrollToPosition(0)
+            }
         })
 
         binding.recyclerViewHome.post {
@@ -88,9 +95,7 @@ class HomeFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
         }
 
         homeViewModel.categories.observe(viewLifecycleOwner, Observer { categories ->
-            Log.d("Categories", categories.toString())
             categoryAdapter.submitList(categories)
-            categoryAdapter.notifyDataSetChanged()
         })
 
         binding.recyclerViewCategories.post {

@@ -37,7 +37,7 @@ class HomeViewModel(
         getAll()
     }
 
-    private fun getCategories() {
+    fun getCategories() {
         viewModelScope.launch {
             _categories.value = listCategoriesUseCase().toList()
         }
