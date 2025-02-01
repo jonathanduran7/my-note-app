@@ -11,5 +11,5 @@ val viewModels = module {
     viewModel { TodoViewModel(get(), get(), get(), get(), get()) }
     viewModel { CategoryViewModel(get(), get(), get(), get()) }
     viewModel { HomeViewModel(get(),get(), get(), get()) }
-    viewModel { CategoryDetailViewModel(get()) }
+    viewModel { CategoryDetailViewModel(get(), get(), get()) }
 }
