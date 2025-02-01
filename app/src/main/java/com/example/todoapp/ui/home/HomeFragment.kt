@@ -95,7 +95,9 @@ class HomeFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
         }
 
         homeViewModel.categories.observe(viewLifecycleOwner, Observer { categories ->
-            categoryAdapter.submitList(categories)
+            categoryAdapter.submitList(categories) {
+                binding.recyclerViewCategories.scrollToPosition(0)
+            }
         })
 
         binding.recyclerViewCategories.post {
