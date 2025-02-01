@@ -79,7 +79,10 @@ class HomeFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
         }
     }
 
-    override fun onTodoCheckChanged(todo: TodoWithCategory, isChecked: Boolean) {}
+    override fun onTodoCheckChanged(todo: TodoWithCategory, isChecked: Boolean) {
+        val updatedTodo = todo.todo.copy(isCompleted = isChecked)
+        homeViewModel.updateTodo(updatedTodo)
+    }
 
     override fun onTodoDelete(todo: TodoWithCategory) {}
 
