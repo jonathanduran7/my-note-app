@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapp.databinding.FragmentCategoryDetailBinding
@@ -27,6 +28,10 @@ class CategoryDetail : Fragment(), OnTodoCheckListener, OnTodoDelete {
 
     private lateinit var todoAdapter: TodoAdapter
 
+    private val categoryId: Int by lazy {
+        requireArguments().getInt(CATEGORY_ID)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,7 +44,6 @@ class CategoryDetail : Fragment(), OnTodoCheckListener, OnTodoDelete {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val categoryId = requireArguments().getInt(CATEGORY_ID)
         val categoryName = requireArguments().getString(CATEGORY_NAME)
 
         binding.categoryNameTitle.text = categoryName
@@ -47,6 +51,7 @@ class CategoryDetail : Fragment(), OnTodoCheckListener, OnTodoDelete {
 
         setupRecyclerView()
         setupEmptyView()
+        searchByCategory()
     }
 
     private fun setupRecyclerView() {
@@ -91,6 +96,22 @@ class CategoryDetail : Fragment(), OnTodoCheckListener, OnTodoDelete {
             } else {
                 binding.noTodosText.visibility = View.GONE
                 binding.categoryDetailRecyclerView.visibility = View.VISIBLE
+            }
+        })
+    }
+
+    private fun searchByCategory() {
+        binding.searchViewCategoryDetail.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.searchByCategory(categoryId, query ?: "")
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if(newText.isNullOrEmpty()) {
+                    viewModel.getTodoByCategory(categoryId)
+                }
+                return true
             }
         })
     }
