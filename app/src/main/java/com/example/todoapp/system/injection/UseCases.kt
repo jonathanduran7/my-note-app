@@ -2,6 +2,7 @@ package com.example.todoapp.system.injection
 
 import com.example.todoapp.domain.usecases.AddTodoUseCase
 import com.example.todoapp.domain.usecases.GetRecentlyTodoUseCase
+import com.example.todoapp.domain.usecases.GetTodoByCategoryUseCase
 import com.example.todoapp.domain.usecases.ListTodosUseCase
 import com.example.todoapp.domain.usecases.RemoveTodoUseCase
 import com.example.todoapp.domain.usecases.SearchTodosUseCase
@@ -23,4 +24,5 @@ val usecases = module {
     factory { RemoveCategoryUseCase(get()) }
     factory { UpdateCategoryUseCase(get()) }
     factory { GetRecentlyTodoUseCase(get()) }
+    factory { GetTodoByCategoryUseCase(get()) }
 }
