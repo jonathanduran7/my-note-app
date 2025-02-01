@@ -2,6 +2,7 @@ package com.example.todoapp.ui.home
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -80,22 +81,21 @@ class HomeFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
     }
 
     private fun setupCategories(){
-        //TODO: Replace this with actual data
-        val items = listOf(
-            Category(1, "Personal"),
-            Category(2, "Work"),
-            Category(3, "Home"),
-            Category(4, "School"),
-            Category(5, "Other")
-        )
-
         binding.recyclerViewCategories.apply {
             adapter = categoryAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
         }
 
-        categoryAdapter.submitList(items)
-        categoryAdapter.notifyDataSetChanged()
+        homeViewModel.categories.observe(viewLifecycleOwner, Observer { categories ->
+            Log.d("Categories", categories.toString())
+            categoryAdapter.submitList(categories)
+            categoryAdapter.notifyDataSetChanged()
+        })
+
+        binding.recyclerViewCategories.post {
+            binding.recyclerViewCategories.requestLayout()
+        }
+
     }
 }
