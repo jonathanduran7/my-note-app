@@ -32,4 +32,16 @@
         android:name="com.example.todoapp.ui.home.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/categoryDetail"
+        android:name="com.example.todoapp.ui.categoryDetail.CategoryDetail"
+        android:label="Tasks"
+        tools:layout="@layout/fragment_category_detail">
+        <argument
+            android:name="categoryId"
+            app:argType="integer" />
+        <argument
+            android:name="categoryName"
+            app:argType="string" />
+    </fragment>
 </navigation>
