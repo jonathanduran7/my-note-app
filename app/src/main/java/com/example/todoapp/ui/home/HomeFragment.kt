@@ -1,29 +1,33 @@
 package com.example.todoapp.ui.home
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentHomeBinding
+import com.example.todoapp.domain.models.Category
 import com.example.todoapp.domain.models.TodoWithCategory
+import com.example.todoapp.ui.categoryDetail.CategoryDetail
 import com.example.todoapp.ui.todo.OnTodoCheckListener
 import com.example.todoapp.ui.todo.OnTodoDelete
 import org.koin.android.ext.android.inject
 
-class HomeFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
+class HomeFragment : Fragment(), OnTodoCheckListener, OnTodoDelete, OnCategoryClick {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
     private val homeViewModel: HomeViewModel by inject()
     private lateinit var homeAdapter : HomeAdapter
-    private var categoryAdapter: CategoryAdapter = CategoryAdapter()
+    private var categoryAdapter: CategoryAdapter = CategoryAdapter(this)
 
     private val navController by lazy { findNavController() }
 
@@ -124,5 +128,13 @@ class HomeFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
                 binding.buttonViewMore.visibility = View.VISIBLE
             }
         })
+    }
+
+    override fun onCategoryClick(category: Category) {
+        val bundle = Bundle().apply {
+            putInt(CategoryDetail.CATEGORY_ID, category.id)
+            putString(CategoryDetail.CATEGORY_NAME, category.name)
+        }
+        navController.navigate(R.id.categoryDetail, bundle)
     }
 }
