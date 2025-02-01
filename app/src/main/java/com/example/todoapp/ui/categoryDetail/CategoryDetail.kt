@@ -46,6 +46,7 @@ class CategoryDetail : Fragment(), OnTodoCheckListener, OnTodoDelete {
         viewModel.getTodoByCategory(categoryId)
 
         setupRecyclerView()
+        setupEmptyView()
     }
 
     private fun setupRecyclerView() {
@@ -79,4 +80,16 @@ class CategoryDetail : Fragment(), OnTodoCheckListener, OnTodoDelete {
     }
 
     override fun onTodoDelete(todo: TodoWithCategory) {}
+
+    fun setupEmptyView() {
+        viewModel.todos.observe(viewLifecycleOwner, Observer { todos ->
+            if (todos.isEmpty()) {
+                binding.noTodosText.visibility = View.VISIBLE
+                binding.categoryDetailRecyclerView.visibility = View.GONE
+            } else {
+                binding.noTodosText.visibility = View.GONE
+                binding.categoryDetailRecyclerView.visibility = View.VISIBLE
+            }
+        })
+    }
 }
