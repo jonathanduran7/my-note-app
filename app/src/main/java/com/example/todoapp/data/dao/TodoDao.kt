@@ -31,4 +31,7 @@ interface TodoDao {
 
     @Query("SELECT * FROM todo WHERE categoryId = :categoryId")
     suspend fun getTodoByCategory(categoryId: Int): List<TodoWithCategory>
+
+    @Query("SELECT * FROM todo WHERE categoryId = :categoryId AND title like '%' || :query || '%'")
+    suspend fun searchByCategory(categoryId: Int, query: String): List<TodoWithCategory>
 }
