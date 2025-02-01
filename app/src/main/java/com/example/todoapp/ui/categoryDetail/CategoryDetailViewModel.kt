@@ -7,13 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.todoapp.domain.models.TodoWithCategory
 import com.example.todoapp.domain.usecases.GetTodoByCategoryUseCase
 import com.example.todoapp.domain.usecases.RemoveTodoUseCase
+import com.example.todoapp.domain.usecases.SearchTodoByCategoryUseCase
 import com.example.todoapp.domain.usecases.UpdateTodoUseCase
 import kotlinx.coroutines.launch
 
 class CategoryDetailViewModel(
     private val getTodoByCategoryUseCase: GetTodoByCategoryUseCase,
     private val updateTodoUseCase: UpdateTodoUseCase,
-    private val removeTodoUseCase: RemoveTodoUseCase
+    private val removeTodoUseCase: RemoveTodoUseCase,
+    private val searchTodoByCategoryUseCase: SearchTodoByCategoryUseCase
 ) : ViewModel() {
 
     private val _todos = MutableLiveData<List<TodoWithCategory>>(emptyList())
@@ -42,6 +44,12 @@ class CategoryDetailViewModel(
         viewModelScope.launch {
             removeTodoUseCase(todo.todo.id)
             _todos.value = _todos.value?.filter { it.todo.id != todo.todo.id }
+        }
+    }
+
+    fun searchByCategory(categoryId: Int, query: String) {
+        viewModelScope.launch {
+            _todos.value = searchTodoByCategoryUseCase(categoryId, query)
         }
     }
 }
