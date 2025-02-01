@@ -84,7 +84,9 @@ class HomeFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
         homeViewModel.updateTodo(updatedTodo)
     }
 
-    override fun onTodoDelete(todo: TodoWithCategory) {}
+    override fun onTodoDelete(todo: TodoWithCategory) {
+        homeViewModel.remove(todo.todo)
+    }
 
     private fun navigateToCreateTodo() {
         navController.navigate(R.id.todoFragment)

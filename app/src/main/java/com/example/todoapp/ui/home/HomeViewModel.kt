@@ -10,6 +10,7 @@ import com.example.todoapp.domain.models.Category
 import com.example.todoapp.domain.models.ToDo
 import com.example.todoapp.domain.models.TodoWithCategory
 import com.example.todoapp.domain.usecases.GetRecentlyTodoUseCase
+import com.example.todoapp.domain.usecases.RemoveTodoUseCase
 import com.example.todoapp.domain.usecases.category.ListCategoryUseCase
 import kotlinx.coroutines.launch
 
@@ -17,6 +18,7 @@ class HomeViewModel(
     private val listTodosUseCase: GetRecentlyTodoUseCase,
     private val listCategoriesUseCase: ListCategoryUseCase,
     private val todoRepository: TodoRepository,
+    private val removeTodoUseCase: RemoveTodoUseCase
 ) : ViewModel() {
     private val _todos = MutableLiveData<List<TodoWithCategory>>()
     val todos: LiveData<List<TodoWithCategory>> = _todos
@@ -49,6 +51,13 @@ class HomeViewModel(
     fun updateTodo(todo: ToDo) {
         viewModelScope.launch {
             todoRepository.update(todo)
+            getAll()
+        }
+    }
+
+    fun remove(todo: ToDo) {
+        viewModelScope.launch {
+            removeTodoUseCase(todo.id)
             getAll()
         }
     }
