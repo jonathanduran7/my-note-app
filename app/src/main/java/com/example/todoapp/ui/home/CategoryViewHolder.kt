@@ -9,8 +9,13 @@ import com.example.todoapp.domain.models.Category
 class CategoryViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
     private val categoryName: TextView = view.findViewById<TextView>(R.id.categoryNameCard)
+    private val cardCategory: View = view.findViewById<View>(R.id.cardCategory)
 
-    fun bind(category: Category){
+    fun bind(category: Category, listener: OnCategoryClick) {
         categoryName.text = category.name
+
+        cardCategory.setOnClickListener {
+            listener.onCategoryClick(category)
+        }
     }
 }
