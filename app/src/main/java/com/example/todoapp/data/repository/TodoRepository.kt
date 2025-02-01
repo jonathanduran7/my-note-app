@@ -32,4 +32,8 @@ class TodoRepository(private val todoDao: TodoDao) {
     suspend fun getRecentlyAdded(): List<TodoWithCategory> {
         return todoDao.getRecentlyAdded()
     }
+
+    suspend fun getTodoByCategory(categoryId: Int): List<TodoWithCategory> {
+        return todoDao.getTodoByCategory(categoryId)
+    }
 }
