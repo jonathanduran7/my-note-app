@@ -75,13 +75,15 @@ class CategoryDetail : Fragment(), OnTodoCheckListener, OnTodoDelete {
     }
 
     override fun onTodoCheckChanged(todo: TodoWithCategory, isChecked: Boolean) {
-//        todo.todo.isCompleted = isChecked
-//        viewModel.update(todo)
+        val updatedTodo = todo.copy(todo = todo.todo.copy(isCompleted = isChecked))
+        viewModel.updateTodoStatus(updatedTodo)
     }
 
-    override fun onTodoDelete(todo: TodoWithCategory) {}
+    override fun onTodoDelete(todo: TodoWithCategory) {
+        viewModel.removeTodo(todo)
+    }
 
-    fun setupEmptyView() {
+    private fun setupEmptyView() {
         viewModel.todos.observe(viewLifecycleOwner, Observer { todos ->
             if (todos.isEmpty()) {
                 binding.noTodosText.visibility = View.VISIBLE
