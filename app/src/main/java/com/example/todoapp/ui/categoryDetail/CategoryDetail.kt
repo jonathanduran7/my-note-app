@@ -93,9 +93,11 @@ class CategoryDetail : Fragment(), OnTodoCheckListener, OnTodoDelete {
             if (todos.isEmpty()) {
                 binding.noTodosText.visibility = View.VISIBLE
                 binding.categoryDetailRecyclerView.visibility = View.GONE
+                binding.searchViewCategoryDetail.visibility = View.GONE
             } else {
                 binding.noTodosText.visibility = View.GONE
                 binding.categoryDetailRecyclerView.visibility = View.VISIBLE
+                binding.searchViewCategoryDetail.visibility = View.VISIBLE
             }
         })
     }
