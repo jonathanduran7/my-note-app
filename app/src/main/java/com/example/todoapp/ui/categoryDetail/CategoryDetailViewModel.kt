@@ -4,7 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.todoapp.data.repository.TodoRepository
+import com.example.todoapp.domain.models.ToDo
 import com.example.todoapp.domain.models.TodoWithCategory
+import com.example.todoapp.domain.usecases.AddTodoUseCase
 import com.example.todoapp.domain.usecases.GetTodoByCategoryUseCase
 import com.example.todoapp.domain.usecases.RemoveTodoUseCase
 import com.example.todoapp.domain.usecases.SearchTodoByCategoryUseCase
@@ -15,7 +18,8 @@ class CategoryDetailViewModel(
     private val getTodoByCategoryUseCase: GetTodoByCategoryUseCase,
     private val updateTodoUseCase: UpdateTodoUseCase,
     private val removeTodoUseCase: RemoveTodoUseCase,
-    private val searchTodoByCategoryUseCase: SearchTodoByCategoryUseCase
+    private val searchTodoByCategoryUseCase: SearchTodoByCategoryUseCase,
+    private val addTodoUseCase: AddTodoUseCase
 ) : ViewModel() {
 
     private val _todos = MutableLiveData<List<TodoWithCategory>>(emptyList())
@@ -50,6 +54,13 @@ class CategoryDetailViewModel(
     fun searchByCategory(categoryId: Int, query: String) {
         viewModelScope.launch {
             _todos.value = searchTodoByCategoryUseCase(categoryId, query)
+        }
+    }
+
+    fun addTodo(todo: ToDo) {
+        viewModelScope.launch {
+            addTodoUseCase(todo)
+            getTodoByCategory(todo.categoryId ?: 0)
         }
     }
 }
