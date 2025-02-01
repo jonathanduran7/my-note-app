@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentHomeBinding
-import com.example.todoapp.domain.models.Category
 import com.example.todoapp.domain.models.TodoWithCategory
 import com.example.todoapp.ui.todo.OnTodoCheckListener
 import com.example.todoapp.ui.todo.OnTodoDelete
@@ -42,6 +41,7 @@ class HomeFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
         setupRecyclerView()
         setupCategories()
         setupListeners()
+        setupEmptyState()
     }
 
     override fun onResume() {
@@ -103,6 +103,21 @@ class HomeFragment : Fragment(), OnTodoCheckListener, OnTodoDelete {
         binding.recyclerViewCategories.post {
             binding.recyclerViewCategories.requestLayout()
         }
+    }
 
+    private fun setupEmptyState(){
+        homeViewModel.todos.observe(viewLifecycleOwner, Observer { todos ->
+            if (todos.isEmpty()) {
+                binding.noTodoHome.visibility = View.VISIBLE
+                binding.recyclerViewHome.visibility = View.GONE
+                binding.buttonViewMore.visibility = View.GONE
+                binding.textViewHome.visibility = View.GONE
+            } else {
+                binding.noTodoHome.visibility = View.GONE
+                binding.recyclerViewHome.visibility = View.VISIBLE
+                binding.textViewHome.visibility = View.VISIBLE
+                binding.buttonViewMore.visibility = View.VISIBLE
+            }
+        })
     }
 }
