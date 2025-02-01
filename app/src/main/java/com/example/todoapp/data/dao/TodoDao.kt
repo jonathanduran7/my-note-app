@@ -28,4 +28,7 @@ interface TodoDao {
 
     @Query("SELECT * FROM todo ORDER BY id DESC LIMIT 4")
     suspend fun getRecentlyAdded(): List<TodoWithCategory>
+
+    @Query("SELECT * FROM todo WHERE categoryId = :categoryId")
+    suspend fun getTodoByCategory(categoryId: Int): List<TodoWithCategory>
 }
