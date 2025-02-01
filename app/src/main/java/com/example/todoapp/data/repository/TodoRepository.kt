@@ -36,4 +36,8 @@ class TodoRepository(private val todoDao: TodoDao) {
     suspend fun getTodoByCategory(categoryId: Int): List<TodoWithCategory> {
         return todoDao.getTodoByCategory(categoryId)
     }
+
+    suspend fun searchByCategory(categoryId: Int, query: String): List<TodoWithCategory> {
+        return todoDao.searchByCategory(categoryId, query)
+    }
 }
